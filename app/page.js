@@ -1,6 +1,12 @@
+import styles from './styles.module.css';
+
 function Page() {
   return (
-    <div>Page</div>
+    <div className={styles.centerBox}> 
+      <h2>
+        Kore koso ga iberia no destreza
+      </h2>
+    </div>
   )
 }
 
