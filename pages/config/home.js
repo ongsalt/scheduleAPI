@@ -1,24 +1,27 @@
-import { NextAuthStore } from '../../lib/auth'
+import { NextAuthStore, initPocketBase } from '../../lib/auth'
 import PocketBase from 'pocketbase';
 
-async function getData() {
-  const pb = new PocketBase('http://127.0.0.1:8090');
-  pb.authStore = new NextAuthStore(req, res);
+async function getServerSideProps({ req, res }) {
+    const pb = initPocketBase(req, res);
 
-  // fetch example records...
-  const result = await pb.collection('example').getList(1, 30);
-
-  return {
-    props: {
-      // ...
-    },
+    pb.authStore = new NextAuthStore(req, res);
+  
+    if (pb.authStore.isValid) {
+      return {
+        props: {
+          authState: pb.authStore.isValid
+        }
+      }
+    }
+  
   }
 
-}
-
-async function Config() {
+function Config({ authState }) {
   return (
-    <div>Config</div>
+    <div>
+      Config <br/>
+      {authState ? "a" : "b"}
+    </div>
   )
 }
 

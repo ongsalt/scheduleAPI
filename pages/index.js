@@ -8,8 +8,8 @@ function Page() {
         API test
       </h2>
       <Link href="/api/current/m5-5"> Current </Link>
-      <Link href="/auth"> Auth </Link>
-      <Link href="/config"> Config </Link>
+      <Link href="/auth/login"> Auth </Link>
+      <Link href="/config/home"> Config </Link>
     </div>
   )
 }

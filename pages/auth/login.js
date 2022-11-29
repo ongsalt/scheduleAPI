@@ -1,21 +1,51 @@
-import { NextAuthStore } from '../../../lib/auth'
-import PocketBase from 'pocketbase';
+import PocketBase, { LocalAuthStore } from 'pocketbase';
+import { useState, useEffect } from 'react'
+import { initPocketBase } from '../../lib/auth';
+import { post } from '../../lib/post';
 
-async function auth(username, password) {
-  const pb = new PocketBase('http://127.0.0.1:8090');
-  pb.authStore = new NextAuthStore(req, res);
-  const authData = await pb.collection('users').authWithPassword(username, password);
-
-  if (pb.authStore.isValid) {
-
-  }
-
-  
+export async function getServerSideProps({ req, res }) {
+  const pb = await initPocketBase(req, res);
+  const user = { ...pb.authStore.model }
+  return {
+    props: {
+      user 
+    }
+  };
 }
 
-async function Auth() {
+async function loginHandler(e) {
+  e.preventDefault();
+  console.log(e.target.username.value);
+  await post('/api/auth/login', {
+    username: e.target.username.value,
+    password: e.target.password.value
+  })
+  location.reload()
+}
+
+async function logoutHandler(e) {
+  await fetch('/api/auth/logout')
+  location.reload()
+}
+
+function Auth({ user }) {
+  console.log(user)
+  const [state, setstate] = useState('');
   return (
-    <div>Auth</div>
+    <div>
+      <h2>
+        Auth
+      </h2>
+      <div>
+        {user.name ?? "Not login"}
+      </div>
+      <form action="/api/auth/login" method="post" onSubmit={loginHandler}>
+        <input type="text" name="username" id="username" />
+        <input type="password" name="password" id="password" />
+        <button type='submit'> bruh </button>
+      </form>
+      <button onClick={logoutHandler}> logout </button>
+    </div>
   )
 }
 
