@@ -20,7 +20,7 @@ async function loginHandler(e) {
     username: e.target.username.value,
     password: e.target.password.value
   })
-  location.reload()
+  location.reload() // should get to somewhere
 }
 
 async function logoutHandler(e) {

@@ -5,8 +5,8 @@ import { getOrder } from "../../../lib/db";
 export default async function handler(req, res) {
     const { filter } = req.query;
     
-    const target = getClass(filter.split('/')); // for next 13 turbo
-    // const target = getClass(filter); // for  next 12 compiler
+    // const target = getClass(filter.split('/')); // for next 13 turbo
+    const target = getClass(filter); // for  next 12 compiler
     const time = getCurrentPeriod();
     const schedule = await getOrder(time, target);
 
