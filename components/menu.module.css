@@ -1,0 +1,16 @@
+.menu {
+    display: flex;
+    gap: 8px;
+
+    background-color: var(--sub-alt-color);
+    border-radius: 8px;
+
+    max-width: fit-content;
+    padding: 8px;
+
+    color: var(--sub-color);
+}
+
+.highlight {
+    color: var(--main-color);
+}
