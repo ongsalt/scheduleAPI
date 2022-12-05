@@ -5,12 +5,70 @@
     justify-content: center;
     margin: 0;
     padding: 0;
+    height: calc(100vh - 80px);
+    /* background-color: red; */
 }
 
 .content {
     max-width: 560px;
-    margin: 24px 48px 72px 48px ;
-    /* background-color: red; */
+    max-height: 360px;
+    margin: 24px 48px 72px 48px;
     height: 100%;
+    /* background-color: aqua; */
 }
 
+.container {
+    padding: 8px;
+    margin: 8px;
+    /* background-color: red; */
+}
+
+.shortcutList {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    padding: 100px 10% 0px 10%;
+    width: 100%;
+    gap: 32px;
+}
+
+.shortcut {
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    bottom: 0px;
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+
+    background-color: var(--sub-alt-color);
+    /* user-select: none; */
+    transition: all .5s cubic-bezier(.14, .59, .32, .96);
+}
+
+.shortcut:hover {
+    background-color: var(--main-color);
+    bottom: 4px;
+    box-shadow: var(--main-color-transperent) 0px 8px 24px;
+}
+
+.shortcut> :last-child {
+    position: absolute;
+    bottom: 0;
+}
+
+.shortcut> :first-child {
+    margin-bottom: 20px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .shortcut:hover {
+        color: white;
+    }
+}

@@ -9,6 +9,15 @@ export async function getServerSideProps({ req, res }) {
 
   const pb = await initPocketBase(req, res);
   const user = { ...pb.authStore.model }
+
+  if (user.valid) {
+    return {
+      redirect: {
+        target: '/config',
+        permanent: false
+      }
+    }
+  }
   return {
     props: {
       user
@@ -27,7 +36,7 @@ async function loginHandler(e) {
 
 function Login({ user }) {
   return (
-    <Layout title="Login" hideTitle user={user} >
+    <Layout title="Login" hideTitle user={user} center>
         <form action="/api/auth/login" method="post" onSubmit={loginHandler}>
           <div className={style.container}>
             <h1 className=''>

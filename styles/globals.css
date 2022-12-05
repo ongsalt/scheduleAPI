@@ -1,18 +1,4 @@
-/* Serika light from Monkeytype */
 :root {
-  --main-color-transperent: #e2b71440;
-  --main-color: #e2b714;
-  --caret-color: #e2b714;
-  --sub-color: #aaaeb3;
-  --sub-alt-color: #d1d3d8;
-  --bg-color: #e1e1e3;
-  --bg-color-transperent: #e1e1e300;
-  --bg-color-gradient: #e1e1e3d0;
-  --text-color: #323437;
-  --error-color: #da3333;
-  --error-extra-color: #791717;
-  --colorful-error-color: #da3333;
-  --colorful-error-extra-color: #791717;
   --font: monospace, "Roboto Mono", "Roboto Mono", "Vazirmatn", "Kanit";
 }
 
@@ -41,7 +27,7 @@ body {
 a {
   color: inherit;
   text-decoration: none;
-  transition: all .6s cubic-bezier(.14,.59,.32,.96);
+  transition: all .6s cubic-bezier(.14, .59, .32, .96);
 }
 
 a:hover {
@@ -67,7 +53,7 @@ button {
   padding: 8px;
   font-family: var(--font);
   color: var(--bg-color);
-  transition: all .6s cubic-bezier(.14,.59,.32,.96);
+  transition: all .6s cubic-bezier(.14, .59, .32, .96);
 }
 
 button:hover {
@@ -93,7 +79,7 @@ input {
   font-family: var(--font);
 
   background-color: var(--sub-alt-color);
-  transition: all .6s cubic-bezier(.14,.59,.32,.96);
+  transition: all .6s cubic-bezier(.14, .59, .32, .96);
 
 }
 
@@ -103,25 +89,4 @@ input::placeholder {
 
 input:focus {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-}
-
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-
-  /* Serika dark from Monkeytype */
-  :root {
-    --bg-color: #323437;
-    --main-color: #e2b714;
-    --caret-color: #e2b714;
-    --sub-color: #646669;
-    --sub-alt-color: #2c2e31;
-    --text-color: #d1d0c5;
-    --error-color: #ca4754;
-    --error-extra-color: #7e2a33;
-    --colorful-error-color: #ca4754;
-    --colorful-error-extra-color: #7e2a33;
-  }
 }

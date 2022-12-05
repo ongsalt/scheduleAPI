@@ -1,6 +1,6 @@
-// import React from 'react'
-
 import Link from 'next/link'
+import { useRouter } from 'next/router'
+
 
 import style from './menu.module.css'
 
@@ -14,8 +14,9 @@ function Badge({ link, title, highlight }) {
 }
 
 function Menu({ pageTitle }) {
+  const router = useRouter()
   const links = [{ link: '/home', title: 'Home' }, { link: '/config', title: 'Config' }, { link: '/disclaimer', title: 'Disclaimer' }]
-  const current = links.find(link => link.title === pageTitle);
+  const current = links.find(link => router.pathname.includes(link.link));
 
   if (current) {
     current.highlight = true;

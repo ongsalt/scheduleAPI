@@ -1,5 +1,7 @@
-import Layout from '../components/layout';
-import { initPocketBase } from '../lib/auth'
+import Icon from '../../components/icon';
+import Layout from '../../components/layout';
+import { initPocketBase } from '../../lib/auth'
+import style from '../../styles/utils.module.css';
 
 export async function getServerSideProps({ req, res }) {
   const pb = await initPocketBase(req, res);
@@ -12,14 +14,11 @@ export async function getServerSideProps({ req, res }) {
   };
 }
 
+
 function Config({ user }) {
   return (
-    <Layout title="Config" user={user}>
-      <div>
-        <div>
-          
-        </div>
-       </div>
+    <Layout title="User" user={user} center>
+      bruh
     </Layout>
   )
 }

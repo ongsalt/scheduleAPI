@@ -4,7 +4,8 @@ export default function Document() {
   return (
     <Html>
       <Head>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit&display=optional"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit&display=optional" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
       </Head>
       <body>
         <Main />
