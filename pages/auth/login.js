@@ -1,5 +1,3 @@
-import PocketBase, { LocalAuthStore } from 'pocketbase';
-import { useState, useEffect } from 'react'
 import { initPocketBase } from '../../lib/auth';
 import { post } from '../../lib/post';
 
@@ -8,6 +6,7 @@ import style from '../../styles/styles.module.css'
 import Layout from '../../components/layout';
 
 export async function getServerSideProps({ req, res }) {
+
   const pb = await initPocketBase(req, res);
   const user = { ...pb.authStore.model }
   return {
@@ -26,15 +25,9 @@ async function loginHandler(e) {
   location.reload() // should get to somewhere
 }
 
-async function logoutHandler(e) {
-  await fetch('/api/auth/logout')
-  location.reload()
-}
-
 function Login({ user }) {
-  console.log(user)
   return (
-    <Layout title="Login" hideTitle>
+    <Layout title="Login" hideTitle user={user} >
         <form action="/api/auth/login" method="post" onSubmit={loginHandler}>
           <div className={style.container}>
             <h1 className=''>

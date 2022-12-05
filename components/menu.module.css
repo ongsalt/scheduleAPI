@@ -1,6 +1,7 @@
 .menu {
     display: flex;
-    gap: 8px;
+
+    gap: 12px;
 
     background-color: var(--sub-alt-color);
     border-radius: 8px;

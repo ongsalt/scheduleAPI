@@ -5,7 +5,7 @@ import style from './footer.module.css'
 function Footer() {
   return (
     <div className={style.footer}>
-        PCSHS Trang
+        Copyright - PCSHS Trang | NSTDA
     </div>
   )
 }

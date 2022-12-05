@@ -6,6 +6,8 @@
   --sub-color: #aaaeb3;
   --sub-alt-color: #d1d3d8;
   --bg-color: #e1e1e3;
+  --bg-color-transperent: #e1e1e300;
+  --bg-color-gradient: #e1e1e3d0;
   --text-color: #323437;
   --error-color: #da3333;
   --error-extra-color: #791717;
@@ -14,6 +16,13 @@
   --font: monospace, "Roboto Mono", "Roboto Mono", "Vazirmatn", "Kanit";
 }
 
+#__next {
+  min-height: 100vh;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  background-color: var(--bg-color);
+}
 
 h1 {
   color: var(--main-color);
@@ -25,11 +34,18 @@ body {
   margin: 0;
   font-family: var(--font);
   background-color: var(--bg-color);
+  color: var(--text-color);
   min-height: 100vh;
 }
 
 a {
   color: inherit;
+  text-decoration: none;
+  transition: all .6s cubic-bezier(.14,.59,.32,.96);
+}
+
+a:hover {
+  color: var(--text-color);
 }
 
 * {
@@ -41,7 +57,7 @@ button {
   border: none;
 
   font-weight: 600;
-  margin-top: 8px;
+  border: 2px solid var(--main-color);
   height: 2.5rem;
 
   background-color: var(--caret-color);
@@ -58,10 +74,10 @@ button:hover {
   box-shadow: var(--main-color-transperent) 0px 8px 24px;
 }
 
-button:active {
-  background-color: var(--text-color);
+button:focus {
+  border: 2px solid var(--bg-color);
+  /* background-color: var(--text-color); */
   box-shadow: var(--main-color-transperent) 0px 12px 32px;
-
 }
 
 
@@ -94,10 +110,6 @@ input:focus {
     color-scheme: dark;
   }
 
-  body {
-    color: white;
-    background: black;
-  }
 
   /* Serika dark from Monkeytype */
   :root {

@@ -9,7 +9,10 @@ export default async function handler(req, res) {
     return res.status(400).json({ data: 'First or last name not found' })
   }
   
-  await login(req, res, body.username, body.password);
-  res.status(200).json({ data: `${body.username} ${body.password}` })
+  if (await login(req, res, body.username, body.password)) {
+    res.redirect('/config');
+  } else {
+    res.redirect('/auth/login?error=1')
+  }
 }
 

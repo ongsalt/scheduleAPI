@@ -22,6 +22,14 @@
     font-weight: 600;
 }
 
+.outline:hover {
+    background: var(--main-color);
+    color: var(--bg-color);
+}
+
+.outline:focus {    
+    border: 2px solid var(--bg-color);
+}
 
 .textButton {
     border: 2px solid var(--main-color);
@@ -33,4 +41,14 @@
 .left {
     align-self: flex-end;
     min-width: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.topMargin {
+  margin-top: 8px;
 }

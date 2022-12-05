@@ -4,9 +4,12 @@
     align-items: center;
 
     height: 100px;
-    width: 100vw;
+ 
     position: absolute;
+    
     bottom: 0;
+    right: 0;
+    left: 0;
 
     color: var(--sub-color);
 

@@ -4,14 +4,28 @@ import style from './header.module.css'
 import Menu from './menu'
 import Profile from './profile'
 
-function Header({ pageTitle }) {
+function Header({ pageTitle, user, disableBlur = false }) {
   return (
-    <div className={style.header}>
-      <h2>
-        Header
-      </h2>
-      <Menu pageTitle={pageTitle}/>
-      <Profile/>
+    <div className={style.headerContainer}>
+      { disableBlur ? null :
+        <div className={style.gradientBlur}>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
+      }
+      <div className={style.header}>
+        <div>
+          <h2>
+            Schedule API
+          </h2>
+        </div>
+        <Menu pageTitle={pageTitle} />
+        <Profile user={user} />
+      </div>
     </div>
   )
 }
