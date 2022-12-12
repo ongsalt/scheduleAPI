@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
 import { initPocketBase } from '../../lib/auth'
@@ -24,12 +25,12 @@ const shortcuts = [
 
 function Shortcut({ icon, title, link }) {
   return (
-    <a className={style.shortcut} href={link}>
+    <Link className={style.shortcut} href={link}>
       <Icon id={icon} size={84} />
       <p>
         {title}
       </p>
-    </a>
+    </Link>
   )
 }
 

@@ -10,9 +10,14 @@ export default async function handler(req, res) {
   }
   
   if (await login(req, res, body.username, body.password)) {
-    res.redirect('/config');
+    res.json({
+      success: true
+    });
   } else {
-    res.redirect('/auth/login?error=1')
+    res.json({
+      success: false,
+      message: 'Wrong username or password'
+    })
   }
 }
 

@@ -1,0 +1,15 @@
+.wrapper {
+    padding: 0;
+    cursor: pointer;
+    position: relative;
+}
+
+.wrapper > span {
+    position: relative;
+    left: 0;
+    transition: left .2s;
+}
+
+.wrapper > span:hover {
+    left: 2px;
+}

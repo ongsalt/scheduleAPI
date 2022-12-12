@@ -1,0 +1,15 @@
+.grid {
+    display: grid;
+    grid-template-columns: 280px auto;
+    grid-template-rows: auto;
+    height: calc(100vh - 80px);
+    gap: 8px;
+}
+
+
+@media (max-width: 720px) {
+    .grid {
+        display: block;
+        background-color: aqua;
+    }
+}

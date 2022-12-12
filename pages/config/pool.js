@@ -1,3 +1,4 @@
+import ConfigLayout from '../../components/configLayout';
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
 import { initPocketBase } from '../../lib/auth'
@@ -17,8 +18,13 @@ export async function getServerSideProps({ req, res }) {
 
 function Config({ user }) {
   return (
-    <Layout title="Pool" user={user} center>
-      bruh
+    <Layout title="Pool" user={user} hideTitle>
+      <ConfigLayout>
+        <h1> Subject pool </h1>
+        <div>
+          
+        </div>
+      </ConfigLayout>
     </Layout>
   )
 }

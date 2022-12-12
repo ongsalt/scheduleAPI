@@ -1,0 +1,26 @@
+.sidebar {
+    /* background-color: var(--sub-alt-color); */
+    align-self: center;
+    border-radius: 8px;
+    margin: 24px;
+    padding: 12px 6px 72px 0px;
+    color: var(--sub-color);
+}
+
+.child {
+    padding: 12px;
+    gap: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.highlight {
+    color: var(--main-color);
+}
+
+@media (max-width: 720px) {
+    .sidebar {
+        margin: 16px;
+        display: flex;
+    }
+}

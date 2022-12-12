@@ -1,0 +1,39 @@
+.header {
+    background-color: var(--sub-alt-color);
+    padding: 8px;
+    border-radius: 8px;
+}
+
+.table {
+    height: auto;
+    overflow-y: scroll;
+
+    background-color: var(--sub-alt-color);
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+}
+
+.table table {
+    border: none;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th {
+    position: sticky;
+    top: 0;
+    height: 48px;
+    background-color: var(--main-color);
+    z-index: 4;
+}
+
+.table tr {
+    color: var(--text-color);
+    height: 2rem;
+
+    /* background-color: red; */
+}
+
+.table td {
+    padding: 12px;
+}

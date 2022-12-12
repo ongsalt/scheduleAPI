@@ -67,6 +67,19 @@
     margin-bottom: 20px;
 }
 
+.body {
+    display: flex;
+    flex-direction: column;
+    /* width: max-content; */
+    height: inherit;
+}
+
+.flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 @media (prefers-color-scheme: dark) {
     .shortcut:hover {
         color: white;

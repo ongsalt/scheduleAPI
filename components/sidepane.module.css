@@ -1,0 +1,66 @@
+.sidepane {
+    height: 100vh;
+    background-color: var(--bg-color);
+    width: 640px;
+    display: flex;
+    flex-direction: column;
+
+    padding: 32px;
+    opacity: 100;
+    transition: all .3s cubic-bezier(.14, .59, .32, .96);
+}
+
+.sidepaneAnimation {
+    opacity: 0;
+    margin-right: -40px;
+}
+
+.bg {
+    display: flex;
+    justify-content: flex-end;
+    z-index: 10;
+    /* background-color: var(--bg-color-gradient); */
+    background-color: #000000a0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    pointer-events: auto;
+    transition: background-color .3s cubic-bezier(.14, .59, .32, .96);
+}
+
+.bgAnimation {
+    background-color: #00000000;
+    pointer-events: none;
+}
+
+.hotspot {
+    flex: 1;
+}
+
+.inputWrapper {
+    flex: 1;
+    margin-top: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.inputBox {
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+}
+
+.buttonWrapper {
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 24px;
+}
+
+.buttonWrapper > button {
+    max-width: 100%;
+    width: 100%;
+}

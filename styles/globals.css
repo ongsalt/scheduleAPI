@@ -60,7 +60,7 @@ button:hover {
   box-shadow: var(--main-color-transperent) 0px 8px 24px;
 }
 
-button:focus {
+button:active {
   border: 2px solid var(--bg-color);
   /* background-color: var(--text-color); */
   box-shadow: var(--main-color-transperent) 0px 12px 32px;
@@ -89,4 +89,11 @@ input::placeholder {
 
 input:focus {
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+h4 {
+  margin: 0;
+  padding: 0;
+  color: var(--sub-color);
+  font-weight: normal;
 }

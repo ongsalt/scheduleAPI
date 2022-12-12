@@ -23,12 +23,12 @@
 }
 
 .outline:hover {
-    background: var(--main-color);
-    color: var(--bg-color);
+    background: var(--main-color-transperent);
+    /* color: var(--bg-color); */
 }
 
-.outline:focus {    
-    border: 2px solid var(--bg-color);
+.outline:active {    
+    border: 2px solid var(--bg-color-transperent);
 }
 
 .textButton {
@@ -51,4 +51,8 @@
 
 .topMargin {
   margin-top: 8px;
+}
+
+.error {
+    color: var(--error-color);
 }

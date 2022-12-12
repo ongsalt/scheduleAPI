@@ -1,5 +1,6 @@
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
+import ConfigLayout from '../../components/configLayout';
 import { initPocketBase } from '../../lib/auth'
 import style from '../../styles/utils.module.css';
 
