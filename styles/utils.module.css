@@ -72,12 +72,14 @@
     flex-direction: column;
     /* width: max-content; */
     height: inherit;
+    padding-right: 12px;
 }
 
 .flex {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
 }
 
 @media (prefers-color-scheme: dark) {

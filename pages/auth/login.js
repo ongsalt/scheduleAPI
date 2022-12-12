@@ -2,7 +2,6 @@ import { initPocketBase } from '../../lib/auth';
 import { useState } from 'react';
 import { post } from '../../lib/post';
 
-import scopedStyle from './login.module.css'
 import style from '../../styles/styles.module.css'
 import Layout from '../../components/layout';
 import { useRouter } from 'next/router';

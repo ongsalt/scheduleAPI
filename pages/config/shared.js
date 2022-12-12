@@ -8,8 +8,7 @@ import Layout from '../../components/layout';
 import ConfigLayout from '../../components/configLayout';
 import Table from '../../components/table';
 import Sidepane from '../../components/sidepane';
-
-
+import { shared as model  } from '../../lib/model';
 
 export async function getServerSideProps({ req, res }) {
   const pb = await initPocketBase(req, res);
@@ -57,19 +56,28 @@ function Config({ user }) {
 
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
+  const [newMode, setNewMode] = useState(false);
   const [updateHandler, cancelHandler] = useMemo(() => {
     if (!!selected) {
       setShow(true)
     }
     return [
-      (newData) => {
-
+      async (newData) => {
+        console.log(newData)
         // submit data somehow
+        if (newMode) {
+          // await pb.collection('shared').create(newData)
+        } else {
+          // await pb.collection('shared').update(data.id, newData);
+        }
+
         setShow(false)
+        setNewMode(false)
         setTimeout(() => setSelected(null), 500) // actually 400ms but why not
       },
       () => {
         setShow(false)
+        setNewMode(false)
         setTimeout(() => setSelected(null), 500) // actually 400ms but why not
       }
     ]
@@ -93,9 +101,15 @@ function Config({ user }) {
         <div className={style.body}>
           <div className={style.flex}>
             <h1> Bruh </h1>
-            <input type="text" value={filter} placeholder='Search' onInput={e => {
-              setFilter(e.target.value)
-            }} />
+            <div className={style.flex}>
+              <button onClick={() => {
+                setShow(true)
+                setNewMode(true)
+              }}> <Icon id='add' size={18}/> New </button>
+              <input type="text" value={filter} placeholder='Search' onInput={e => {
+                setFilter(e.target.value)
+              }} />
+            </div>
           </div>
           <Table data={formattedData} header={header} filter={filter} setSelected={setSelected} />
         </div>
@@ -105,6 +119,8 @@ function Config({ user }) {
           cancelHandler={cancelHandler}
           title="Edit subject"
           data={selected}
+          model={model}
+          newMode={newMode}
         />
       </ConfigLayout>
     </Layout>

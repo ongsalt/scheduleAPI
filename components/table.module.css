@@ -21,6 +21,7 @@
 
 .table th {
     position: sticky;
+    color: white;
     top: 0;
     height: 48px;
     background-color: var(--main-color);
