@@ -4,7 +4,7 @@ import globalStyle from '../styles/styles.module.css'
 
 const reservedKey = ['collectionId', 'collectionName', 'created', 'id', 'updated', 'expand']
 
-function Sidepane({ updateHandler, data, title, show, cancelHandler, model }) {
+function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newMode }) {
     const formRef = useRef();
     const fields = useMemo(() => Object.keys(model).filter(e => !reservedKey.includes(e)), [model]);
     useMemo(() => formRef.current?.reset(), [show])
@@ -18,7 +18,7 @@ function Sidepane({ updateHandler, data, title, show, cancelHandler, model }) {
                 for (let key in fields) {
                     newData[e.target[key].name] = e.target[key].value;
                 }
-                updateHandler(newData)
+                updateHandler(newData, newMode)
             }}>
                 <h1>{title}</h1>
                 <h4> ID: {data?.id || 'waiting'}</h4>

@@ -47,12 +47,12 @@ function Config({ user }) {
     return filtered
   }, [data, filter])
 
-  const pb = useMemo(async () => {
+  const pb = useMemo(() => {
     const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
-    const res = await pb.collection("shared").getFullList()
-    setData(res)
     return pb
   }, [])
+
+  useMemo(async () => setData(await pb.collection("shared").getFullList()), [pb])
 
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
@@ -62,18 +62,25 @@ function Config({ user }) {
       setShow(true)
     }
     return [
-      async (newData) => {
+      async (newData, newMode) => {
         console.log(newData)
         // submit data somehow
-        if (newMode) {
-          // await pb.collection('shared').create(newData)
-        } else {
-          // await pb.collection('shared').update(data.id, newData);
-        }
+        try {
 
-        setShow(false)
-        setNewMode(false)
-        setTimeout(() => setSelected(null), 500) // actually 400ms but why not
+          if (newMode) {
+            await pb.collection("shared").create(newData)
+          } else {
+            console.log(selected.id, newData)
+            await pb.collection("shared").update(selected.id, newData);
+          }
+          setData(await pb.collection("shared").getFullList())
+          
+          setShow(false)
+          setNewMode(false)
+          setTimeout(() => setSelected(null), 500) // actually 400ms but why not
+        } catch (e) {
+          console.log(e.data)
+        }
       },
       () => {
         setShow(false)
@@ -103,8 +110,8 @@ function Config({ user }) {
             <h1> Bruh </h1>
             <div className={style.flex}>
               <button onClick={() => {
-                setShow(true)
                 setNewMode(true)
+                setShow(true)
               }}> <Icon id='add' size={18}/> New </button>
               <input type="text" value={filter} placeholder='Search' onInput={e => {
                 setFilter(e.target.value)
