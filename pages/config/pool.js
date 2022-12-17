@@ -13,10 +13,12 @@ import { pool as model } from '../../lib/model';
 export async function getServerSideProps({ req, res }) {
   const pb = await initPocketBase(req, res);
   const user = { ...pb.authStore.model }
+  console.log(pb)
 
   return {
     props: {
-      user
+      user,
+
     }
   };
 }
@@ -48,7 +50,7 @@ function Pool({ user }) {
   const [data, setData] = useState([]);
   const [options, setOption] = useState([]);
   const formattedData = useMemo(() => {
-    const formatted = data.map(e => ({ ...e, subject: e.expand.subjectData.subject }))
+    const formatted = data.map(e => ({ ...e, subject: e?.expand?.subjectData?.subject }))
     const filtered = formatted.filter(
       e => e.subject?.includes(filter) || e.room?.includes(filter) || e.teacher?.includes(filter) || filter === ''
     )
@@ -91,7 +93,10 @@ function Pool({ user }) {
             console.log(selected.id, newData)
             await pb.collection("pool").update(selected.id, newData);
           }
-          setData(await pb.collection("pool").getFullList())
+          
+          setData(await pb.collection("pool").getFullList(undefined, {
+            expand: 'subjectData'
+          }))
 
           setShow(false)
           setNewMode(false)
