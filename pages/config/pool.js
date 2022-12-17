@@ -57,8 +57,12 @@ function Pool({ user }) {
   }, [data, filter])
 
   const pb = useMemo(() => {
-    const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
-    return pb
+    if (typeof window !== 'undefined') {
+      const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
+      // console.log(pb)  
+      console.log(pb.authStore())
+      return pb
+    }    
   }, [])
 
   useMemo(async () => {
@@ -143,7 +147,11 @@ function Pool({ user }) {
           updateHandler={updateHandler}
           cancelHandler={cancelHandler}
           options={options}
-          title="Edit subject"
+          title={
+            selected?.teacher ? 
+              `Edit ${selected.teacher}'s ${selected.subject}`
+              : `Edit ${selected?.subject || 'subject'}`
+          }
           data={selected}
           model={model}
           newMode={newMode}

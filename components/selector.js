@@ -2,10 +2,8 @@ import { useState } from 'react'
 import { ReactSearchAutocomplete } from 'react-search-autocomplete'
 import style from './selector.module.css'
 
-function Selector({ data, set }) {
-    console.log(data)
+function Selector({ data, setSelectedID, key, defaultValue }) {
     const items = data.map(e => ({ name: e.subject, ...e }))
-    const [selected, setSelected] = useState(null);
 
     const handleOnSearch = (string, results) => {
         console.log(string, results)
@@ -18,6 +16,7 @@ function Selector({ data, set }) {
 
     const handleOnSelect = (item) => {
         // the item selected
+        setSelectedID(item.id)
         console.log(item)
     }
 
@@ -42,8 +41,9 @@ function Selector({ data, set }) {
                 onHover={handleOnHover}
                 onSelect={handleOnSelect}
                 onFocus={handleOnFocus}
-                autoFocus
+                placeholder={defaultValue}
                 formatResult={formatResult}
+                key={key}
             />
         </div>
     )

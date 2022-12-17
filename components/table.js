@@ -3,6 +3,7 @@ import IconButton from './iconButton';
 import style from './table.module.css'
 
 function Table({ data, header, setSelected }) {
+    const keyyedData = data.map(d => ({ ...d, key: d.id }))
     const columns = header.map(e => ({
         title: e.title,
         dataIndex: e.key,
@@ -18,7 +19,7 @@ function Table({ data, header, setSelected }) {
 
 
     return (
-        <RCTable data={data} columns={columns} className={style.table}/>
+        <RCTable data={keyyedData} columns={columns} className={style.table}/>
     )
 }
 

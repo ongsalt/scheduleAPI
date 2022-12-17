@@ -23,7 +23,6 @@ function Sidebar({ }) {
     ]
     const router = useRouter();
     const path = router.pathname.split('/').pop();
-    console.log(path)
     const current = shortcuts.find(s => s.link.includes(path));
     if (current) {
         current.highlight = true;

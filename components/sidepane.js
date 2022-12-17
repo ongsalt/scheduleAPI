@@ -3,11 +3,13 @@ import style from './sidepane.module.css'
 import globalStyle from '../styles/styles.module.css'
 import Selector from './selector';
 
-const reservedKey = ['collectionId', 'collectionName', 'created', 'id', 'updated', 'expand']
 
 function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newMode, options }) {
+    const [selectedID, setSelectedID] = useState(null);
     const formRef = useRef();
-    const fields = useMemo(() => Object.keys(model).filter(e => !reservedKey.includes(e)), [model]);
+    useEffect(() => {
+        setSelectedID(data?.expand.subjectData.id)
+    }, [data]);
     useMemo(() => formRef.current?.reset(), [show])
 
     // console.log(fields)
@@ -17,30 +19,45 @@ function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newM
             <form className={`${style.sidepane} ${show ? '' : style.sidepaneAnimation}`} ref={formRef} onSubmit={(e) => {
                 e.preventDefault()
                 const newData = {}
-                for (let key in fields) {
-                    newData[e.target[key].name] = e.target[key].value;
+                console.log(e.target.elements)
+
+                for (let key in model) {
+                    if (e.target.elements[key]) {
+
+                        if (e.target.elements[key].tagName.toLowerCase() == 'input') {
+                            newData[key] = e.target.elements[key].value;
+                        }
+                    } else {
+                        console.log(key)
+                        newData[key] = selectedID
+                    }
                 }
+                console.log(newData)
                 updateHandler(newData, newMode)
             }}>
                 <h1>{title}</h1>
                 <h4> ID: {data?.id || 'waiting'}</h4>
                 <div className={style.inputWrapper}>
                     {
-                        fields.map((key) => {
+                        Object.keys(model).map((key) => {
                             const type = model[key] == URL ? 'url' : 'text'
-                            if (model[key] === 'shared') {
-
+                            if (key === 'subjectData') {
                                 return (
                                     <div className={style.inputBox} key={key}>
-                                        <label htmlFor={key}> {key} </label>
-                                        <Selector data={options || []}/>
+                                        <label htmlFor={key}> Subject data </label>
+                                        <Selector
+                                            data={options || []} 
+                                            setSelectedID={setSelectedID} 
+                                            key={data?.id} 
+                                            defaultValue={data?.subject}
+                                        />
                                     </div>
                                 )
                             }
                             return (
                                 <div className={style.inputBox} key={key}>
                                     <label htmlFor={key}> {key} </label>
-                                    <input type={type} id={key} defaultValue={data ? data[key] : ''} name={key} />
+                                    <input type={type} defaultValue={data ? data[key] : ''} name={key} />
                                 </div>
                             )
                         })
