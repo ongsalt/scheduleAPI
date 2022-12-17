@@ -103,7 +103,7 @@ function Config({ user }) {
   }, [])
 
   return (
-    <Layout title="Share" user={user}>
+    <Layout title="Shared subject" user={user}>
       <ConfigLayout>
         <div className={style.body}>
           <div className={style.flex}>

@@ -41,21 +41,25 @@
 }
 
 .inputWrapper {
-    flex: 1;
+    /* flex-grow: 1; */
+    /* height: 500px; */
     margin-top: 32px;
     display: flex;
     flex-wrap: wrap;
-    gap: 12px;
+    gap: 36px 12px;
 }
 
 .inputBox {
+    flex-grow: 0;
     display: flex;
     gap: 8px;
     flex-direction: column;
 }
 
 .buttonWrapper {
+    flex-grow: 1;
     display: grid;
+    align-items: end;
     grid-template-columns: auto auto;
     gap: 24px;
 }

@@ -1,8 +1,14 @@
-import ConfigLayout from '../../components/configLayout';
+import { useState, useMemo, useEffect } from 'react';
+import { initPocketBase } from '../../lib/auth'
+import PocketBase, { LocalAuthStore } from 'pocketbase';
+
+import style from '../../styles/utils.module.css';
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
-import { initPocketBase } from '../../lib/auth'
-import style from '../../styles/utils.module.css';
+import ConfigLayout from '../../components/configLayout';
+import Table from '../../components/table';
+import Sidepane from '../../components/sidepane';
+import { pool as model } from '../../lib/model';
 
 export async function getServerSideProps({ req, res }) {
   const pb = await initPocketBase(req, res);
@@ -16,17 +22,135 @@ export async function getServerSideProps({ req, res }) {
 }
 
 
-function Config({ user }) {
+const header = [
+  {
+    title: 'Subject',
+    key: 'subject',
+  },
+  {
+    title: 'Room',
+    key: 'room'
+  },
+  {
+    title: 'Teacher',
+    key: 'teacher',
+  },
+  {
+    title: 'Link',
+    key: 'link',
+  },
+]
+
+
+function Pool({ user }) {
+  const [filter, setFilter] = useState('');
+
+  const [data, setData] = useState([]);
+  const [options, setOption] = useState([]);
+  const formattedData = useMemo(() => {
+    const formatted = data.map(e => ({ ...e, subject: e.expand.subjectData.subject }))
+    const filtered = formatted.filter(
+      e => e.subject?.includes(filter) || e.room?.includes(filter) || e.teacher?.includes(filter) || filter === ''
+    )
+    console.log({ data, filtered })
+    return filtered
+  }, [data, filter])
+
+  const pb = useMemo(() => {
+    const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
+    return pb
+  }, [])
+
+  useMemo(async () => {
+    setData(await pb.collection("pool").getFullList(undefined, {
+      expand: 'subjectData'
+    }))
+    setOption(await pb.collection("shared").getFullList())
+  }, [pb])
+
+  const [selected, setSelected] = useState(null);
+  const [show, setShow] = useState(false);
+  const [newMode, setNewMode] = useState(false);
+  const [updateHandler, cancelHandler] = useMemo(() => {
+    if (!!selected) {
+      setShow(true)
+    }
+    return [
+      async (newData, newMode) => {
+        console.log(newData)
+        // submit data somehow
+        try {
+
+          if (newMode) {
+            await pb.collection("pool").create(newData)
+          } else {
+            console.log(selected.id, newData)
+            await pb.collection("pool").update(selected.id, newData);
+          }
+          setData(await pb.collection("pool").getFullList())
+
+          setShow(false)
+          setNewMode(false)
+          setTimeout(() => setSelected(null), 500) // actually 400ms but why not
+        } catch (e) {
+          console.log(e.data)
+        }
+      },
+      () => {
+        setShow(false)
+        setNewMode(false)
+        setTimeout(() => setSelected(null), 500) // actually 400ms but why not
+      }
+    ]
+  }, [selected])
+  const optionFetcher = useMemo(() => {
+    return () => pb.collection('shared').getFullList()
+  }, [pb])
+
+
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key == 'Escape') {
+        cancelHandler()
+      }
+    }
+    window.addEventListener('keydown', handler);
+    return () => {
+      window.removeEventListener('keydown', handler);
+    }
+  }, [])
+
   return (
-    <Layout title="Pool" user={user} hideTitle>
+    <Layout title="Subject pool" user={user}>
       <ConfigLayout>
-        <h1> Subject pool </h1>
-        <div>
-          
+        <div className={style.body}>
+          <div className={style.flex}>
+            <h1> Bruh </h1>
+            <div className={style.flex}>
+              <button onClick={() => {
+                setNewMode(true)
+                setShow(true)
+              }}> <Icon id='add' size={18} /> New </button>
+              <input type="text" value={filter} placeholder='Search' onInput={e => {
+                setFilter(e.target.value)
+              }} />
+            </div>
+          </div>
+          <Table data={formattedData} header={header} filter={filter} setSelected={setSelected} />
         </div>
+        <Sidepane
+          show={show}
+          updateHandler={updateHandler}
+          cancelHandler={cancelHandler}
+          options={options}
+          title="Edit subject"
+          data={selected}
+          model={model}
+          newMode={newMode}
+        />
       </ConfigLayout>
     </Layout>
   )
 }
 
-export default Config
+export default Pool

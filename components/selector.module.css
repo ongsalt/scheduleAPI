@@ -1,0 +1,34 @@
+.wrapper > div > div > div > input:focus {
+    box-shadow: none;
+}
+
+.wrapper > div > div {
+    border: none !important;
+    outline: none;
+    border-radius: 1rem !important;
+
+    font-family: var(--font);
+
+    background-color: var(--sub-alt-color) !important;
+    transition: all .6s cubic-bezier(.14, .59, .32, .96);
+}
+
+.wrapper > div > div:focus-within {
+    box-shadow: none !important;
+}
+
+.wrapper > div > div:hover {
+    box-shadow: none !important;
+}
+
+.wrapper {
+    min-width: 400px;
+}
+
+.result {
+    font-family: var(--font);
+}
+
+.result > span {
+    color: var(--main-color);
+}

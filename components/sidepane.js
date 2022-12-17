@@ -1,13 +1,15 @@
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef, useState, useEffect } from 'react';
 import style from './sidepane.module.css'
 import globalStyle from '../styles/styles.module.css'
+import Selector from './selector';
 
 const reservedKey = ['collectionId', 'collectionName', 'created', 'id', 'updated', 'expand']
 
-function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newMode }) {
+function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newMode, options }) {
     const formRef = useRef();
     const fields = useMemo(() => Object.keys(model).filter(e => !reservedKey.includes(e)), [model]);
     useMemo(() => formRef.current?.reset(), [show])
+
     // console.log(fields)
     return (
         <div className={`${style.bg} ${show ? '' : style.bgAnimation}`}>
@@ -25,17 +27,26 @@ function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newM
                 <div className={style.inputWrapper}>
                     {
                         fields.map((key) => {
+                            const type = model[key] == URL ? 'url' : 'text'
+                            if (model[key] === 'shared') {
+
+                                return (
+                                    <div className={style.inputBox} key={key}>
+                                        <label htmlFor={key}> {key} </label>
+                                        <Selector data={options || []}/>
+                                    </div>
+                                )
+                            }
                             return (
                                 <div className={style.inputBox} key={key}>
                                     <label htmlFor={key}> {key} </label>
-                                    <input type="text" id={key} defaultValue={data ? data[key] : ''} name={key} />
+                                    <input type={type} id={key} defaultValue={data ? data[key] : ''} name={key} />
                                 </div>
                             )
                         })
                     }
 
                 </div>
-                <p> {JSON.stringify(data)} </p>
                 <div className={style.buttonWrapper}>
                     <button type='reset' className={globalStyle.outline}> Reset </button>
                     <button type='submit'> Done </button>
