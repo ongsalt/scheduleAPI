@@ -1,10 +1,11 @@
 import React from 'react'
+import { useAuth } from '../lib/clientContext'
 
 import style from './header.module.css'
 import Menu from './menu'
 import Profile from './profile'
 
-function Header({ pageTitle, user, disableBlur = false }) {
+function Header({ pageTitle, disableBlur = false }) {
   return (
     <div className={style.headerContainer}>
       { disableBlur ? null :
@@ -24,7 +25,7 @@ function Header({ pageTitle, user, disableBlur = false }) {
           </h2>
         </div>
         <Menu pageTitle={pageTitle} />
-        <Profile user={user} />
+        <Profile/>
       </div>
     </div>
   )

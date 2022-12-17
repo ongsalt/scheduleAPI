@@ -1,0 +1,40 @@
+.error {
+    position: absolute;
+    z-index: 10;
+    right: 12px;
+    top: 100px;
+
+    display: grid;
+    grid-template-columns: auto min-content;
+    align-items: center;
+    padding-left: 24px;
+
+    height: 64px;
+    min-width: 240px;
+    border-radius: 1rem;
+    
+    color: var(--error-extra-color);
+    background-color: var(--error-color);
+    opacity: 100;
+    transition: all .3s;
+}
+
+.gone {
+    opacity: 0;
+    top: 90px;
+}
+
+.error :last-child {
+    width: 56px;
+    height: 100%;
+    
+    cursor: pointer;
+    
+    align-self: center;
+    display: flex;
+    justify-content: center;
+}
+
+.error :last-child * {
+    height: fit-content;
+}

@@ -1,51 +1,30 @@
-import { initPocketBase } from '../../lib/auth';
 import { useState } from 'react';
 import { post } from '../../lib/post';
 
 import style from '../../styles/styles.module.css'
 import Layout from '../../components/layout';
 import { useRouter } from 'next/router';
+import { initPocketBase, useAuth } from '../../lib/clientContext';
 
-export async function getServerSideProps({ req, res }) {
-
-  const pb = await initPocketBase(req, res);
-  const user = { ...pb.authStore.model }
-
-  if (user.isValid) {
-    return {
-      redirect: {
-        target: '/config',
-        permanent: false
-      }
-    }
-  }
-  return {
-    props: {
-      user
-    }
-  };
-}
-
-
-
-function Login({ user }) {
+function Login({ }) {
+  const { login, user } = useAuth()
   const router = useRouter()
   const [error, setError] = useState(null);
-  const loginHandler = async (e) => {
-    e.preventDefault();
-    const res = await post('/api/auth/login', {
-      username: e.target.username.value,
-      password: e.target.password.value
-    })
-    if (res.success) {
-      router.push('/config')
+
+  const loginHandler2 = async (e) => {
+    e.preventDefault()
+    await login(e.target.username.value, e.target.password.value)
+    if (window.history.length > 1) {
+      router.back()
     } else {
-      setError(res.message)
+      router.push('/config')
     }
   }
+
+  
   return (
-    <Layout title="Login" hideTitle user={user} center >
-        <form action="/api/auth/login" method="post" onSubmit={loginHandler}>
+    <Layout title="Login" hideTitle center >
+        <form action="/api/auth/login" method="post" onSubmit={loginHandler2}>
           <div className={style.container}>
             <h1 className=''>
               Who are you?

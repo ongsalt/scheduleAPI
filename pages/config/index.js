@@ -2,18 +2,8 @@ import Link from 'next/link';
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
 import { initPocketBase } from '../../lib/auth'
+import { useAuth } from '../../lib/clientContext';
 import style from '../../styles/utils.module.css';
-
-export async function getServerSideProps({ req, res }) {
-  const pb = await initPocketBase(req, res);
-  const user = { ...pb.authStore.model }
-
-  return {
-    props: {
-      user
-    }
-  };
-}
 
 const shortcuts = [
   { icon: 'event_note', title: 'Schedule', link: '/config/schedule' },
@@ -34,9 +24,10 @@ function Shortcut({ icon, title, link }) {
   )
 }
 
-function Config({ user }) {
+function Config({  }) {
+  const { pb } = useAuth()
   return (
-    <Layout title="Config" user={user}>
+    <Layout title="Config" >
       <div className={style.shortcutList}>
         {shortcuts.map(s => (<Shortcut key={s.title} {...s}/>))}
       </div>

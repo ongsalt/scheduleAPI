@@ -1,5 +1,6 @@
 import Head from 'next/head'
 import style from '../styles/utils.module.css'
+import ErrorMessage from './errorMessage'
 import Footer from './footer'
 import Header from './header'
 
@@ -9,6 +10,7 @@ function Layout({ children, title, hideTitle, user, center }) {
       <Head>
         <title> {title} </title>
       </Head>
+      <ErrorMessage/>
       <Header pageTitle={title} user={user} disableBlur />
       { center ?
         <div className={style.main}>
