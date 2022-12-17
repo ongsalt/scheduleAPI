@@ -8,7 +8,7 @@ function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newM
     const [selectedID, setSelectedID] = useState(null);
     const formRef = useRef();
     useEffect(() => {
-        setSelectedID(data?.expand.subjectData.id)
+        setSelectedID(data?.expand?.subjectData?.id)
     }, [data]);
     useMemo(() => formRef.current?.reset(), [show])
 
