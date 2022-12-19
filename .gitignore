@@ -6,6 +6,9 @@
 /pb_data
 .pnp.js
 
+# database
+/pb_data
+
 # testing
 /coverage
 
