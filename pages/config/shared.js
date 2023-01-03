@@ -107,7 +107,7 @@ function Config({ user }) {
       <ConfigLayout>
         <div className={style.body}>
           <div className={style.flex}>
-            <h1> Bruh </h1>
+            <h1> Shared subject </h1>
             <div className={style.flex}>
               <button onClick={() => {
                 setNewMode(true)

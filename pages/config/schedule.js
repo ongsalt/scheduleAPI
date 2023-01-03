@@ -1,42 +1,64 @@
+import { useState, useMemo, useEffect } from 'react';
+import { initPocketBase } from '../../lib/auth'
+import PocketBase, { LocalAuthStore } from 'pocketbase';
+
+import style from '../../styles/utils.module.css';
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
 import ConfigLayout from '../../components/configLayout';
-import { initPocketBase } from '../../lib/auth'
-import style from '../../styles/utils.module.css';
-import BetterTable from '../../components/betterTable';
+import Table from '../../components/table';
+import Sidepane from '../../components/sidepane';
+import { pool as model } from '../../lib/model';
+
+const header = [
+  {
+    title: 'Subject',
+    key: 'subject',
+  },
+  {
+    title: 'Room',
+    key: 'room'
+  },
+  {
+    title: 'Teacher',
+    key: 'teacher',
+  },
+  {
+    title: 'Link',
+    key: 'link',
+  },
+]
 
 
-export async function getServerSideProps({ req, res }) {
-  const pb = await initPocketBase(req, res);
-  const user = { ...pb.authStore.model }
-
-  return {
-    props: {
-      user
-    }
-  };
-}
-
-
-function Config({ user }) {
-
+function Pool({ }) {
   const [filter, setFilter] = useState('');
 
   const [data, setData] = useState([]);
+  const [options, setOption] = useState([]);
   const formattedData = useMemo(() => {
-    const filtered = data.filter(
-      e => e.subject.includes(filter) || e.subjectID.includes(filter) || filter === ''
+    const formatted = data.map(e => ({ ...e, subject: e?.expand?.subjectData?.subject }))
+    const filtered = formatted.filter(
+      e => e.subject?.includes(filter) || e.room?.includes(filter) || e.teacher?.includes(filter) || filter === ''
     )
     console.log({ data, filtered })
     return filtered
   }, [data, filter])
 
   const pb = useMemo(() => {
-    const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
-    return pb
+    if (typeof window !== 'undefined') {
+      const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
+      // console.log(pb)  
+      console.log(pb.authStore())
+      return pb
+    }    
   }, [])
 
-  useMemo(async () => setData(await pb.collection("shared").getFullList()), [pb])
+  useMemo(async () => {
+    setData(await pb.collection("pool").getFullList(undefined, {
+      expand: 'subjectData'
+    }))
+    setOption(await pb.collection("shared").getFullList())
+  }, [pb])
 
   const [selected, setSelected] = useState(null);
   const [show, setShow] = useState(false);
@@ -52,12 +74,15 @@ function Config({ user }) {
         try {
 
           if (newMode) {
-            await pb.collection("shared").create(newData)
+            await pb.collection("pool").create(newData)
           } else {
             console.log(selected.id, newData)
-            await pb.collection("shared").update(selected.id, newData);
+            await pb.collection("pool").update(selected.id, newData);
           }
-          setData(await pb.collection("shared").getFullList())
+          
+          setData(await pb.collection("pool").getFullList(undefined, {
+            expand: 'subjectData'
+          }))
 
           setShow(false)
           setNewMode(false)
@@ -73,6 +98,10 @@ function Config({ user }) {
       }
     ]
   }, [selected])
+  const optionFetcher = useMemo(() => {
+    return () => pb.collection('shared').getFullList()
+  }, [pb])
+
 
   useEffect(() => {
     const handler = (e) => {
@@ -87,11 +116,11 @@ function Config({ user }) {
   }, [])
 
   return (
-    <Layout title="Schedule" user={user}>
+    <Layout title="Schedule">
       <ConfigLayout>
         <div className={style.body}>
           <div className={style.flex}>
-            <h1> Bruh </h1>
+            <h1> Schedule </h1>
             <div className={style.flex}>
               <button onClick={() => {
                 setNewMode(true)
@@ -108,7 +137,12 @@ function Config({ user }) {
           show={show}
           updateHandler={updateHandler}
           cancelHandler={cancelHandler}
-          title="Edit subject"
+          options={options}
+          title={
+            selected?.teacher ? 
+              `Edit ${selected.teacher}'s ${selected.subject}`
+              : `Edit ${selected?.subject || 'subject'}`
+          }
           data={selected}
           model={model}
           newMode={newMode}
@@ -118,4 +152,4 @@ function Config({ user }) {
   )
 }
 
-export default Config
+export default Pool

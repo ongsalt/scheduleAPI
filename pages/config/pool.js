@@ -10,19 +10,6 @@ import Table from '../../components/table';
 import Sidepane from '../../components/sidepane';
 import { pool as model } from '../../lib/model';
 
-export async function getServerSideProps({ req, res }) {
-  const pb = await initPocketBase(req, res);
-  const user = { ...pb.authStore.model }
-  console.log(pb)
-
-  return {
-    props: {
-      user,
-    }
-  };
-}
-
-
 const header = [
   {
     title: 'Subject',
@@ -43,7 +30,7 @@ const header = [
 ]
 
 
-function Pool({ user }) {
+function Pool({ }) {
   const [filter, setFilter] = useState('');
 
   const [data, setData] = useState([]);
@@ -129,11 +116,11 @@ function Pool({ user }) {
   }, [])
 
   return (
-    <Layout title="Subject pool" user={user}>
+    <Layout title="Subject pool">
       <ConfigLayout>
         <div className={style.body}>
           <div className={style.flex}>
-            <h1> Bruh </h1>
+            <h1> Subject pool </h1>
             <div className={style.flex}>
               <button onClick={() => {
                 setNewMode(true)

@@ -1,27 +1,18 @@
 import Icon from '../../components/icon';
 import Layout from '../../components/layout';
 import ConfigLayout from '../../components/configLayout';
-import { initPocketBase } from '../../lib/auth'
-import style from '../../styles/utils.module.css';
 
-export async function getServerSideProps({ req, res }) {
-  const pb = await initPocketBase(req, res);
-  const user = { ...pb.authStore.model }
-
-  return {
-    props: {
-      user
-    }
-  };
-}
-
-
-function Config({ user }) {
+function Timing({ }) {
   return (
-    <Layout title="Timing" user={user} center>
-      bruh
+    <Layout title="Timing">
+      <ConfigLayout>
+        <div>
+          <h1> Timing </h1>
+          Not implement yet
+        </div>
+      </ConfigLayout>
     </Layout>
   )
 }
 
-export default Config
+export default Timing
