@@ -35,6 +35,8 @@ function Pool({ }) {
 
   const [data, setData] = useState([]);
   const [options, setOption] = useState([]);
+  const [availableClass, setAvailableClass] = useState([]);
+
   const formattedData = useMemo(() => {
     const formatted = data.map(e => ({ ...e, subject: e?.expand?.subjectData?.subject }))
     const filtered = formatted.filter(
@@ -44,20 +46,24 @@ function Pool({ }) {
     return filtered
   }, [data, filter])
 
+  // Init pocketbase
   const pb = useMemo(() => {
     if (typeof window !== 'undefined') {
       const pb = new PocketBase('http://127.0.0.1:8090', LocalAuthStore)
       // console.log(pb)  
       console.log(pb.authStore())
       return pb
-    }    
+    }
   }, [])
 
+  // Init fetch
   useMemo(async () => {
     setData(await pb.collection("pool").getFullList(undefined, {
       expand: 'subjectData'
     }))
     setOption(await pb.collection("shared").getFullList())
+    const temp = await pb.collection("class").getFullList()
+    setAvailableClass(temp.map(e => e.name))
   }, [pb])
 
   const [selected, setSelected] = useState(null);
@@ -79,7 +85,7 @@ function Pool({ }) {
             console.log(selected.id, newData)
             await pb.collection("pool").update(selected.id, newData);
           }
-          
+
           setData(await pb.collection("pool").getFullList(undefined, {
             expand: 'subjectData'
           }))
@@ -120,7 +126,13 @@ function Pool({ }) {
       <ConfigLayout>
         <div className={style.body}>
           <div className={style.flex}>
-            <h1> Schedule </h1>
+            <div className={style.flex}>
+              <h1> Schedule </h1>
+              {/* <p> Class </p> */}
+              <select name="class" id="class" title='Class'>
+                { availableClass.map(element => (<option value={element} key={element}> {element} </option>)) }
+              </select>
+            </div>
             <div className={style.flex}>
               <button onClick={() => {
                 setNewMode(true)
@@ -138,11 +150,7 @@ function Pool({ }) {
           updateHandler={updateHandler}
           cancelHandler={cancelHandler}
           options={options}
-          title={
-            selected?.teacher ? 
-              `Edit ${selected.teacher}'s ${selected.subject}`
-              : `Edit ${selected?.subject || 'subject'}`
-          }
+          title='Edit'
           data={selected}
           model={model}
           newMode={newMode}

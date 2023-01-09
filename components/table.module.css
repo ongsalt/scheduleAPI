@@ -8,7 +8,7 @@
     height: auto;
     overflow-y: scroll;
 
-    background-color: var(--sub-alt-color);
+    background-color: #0000000a;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
 }

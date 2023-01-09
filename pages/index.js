@@ -1,6 +1,15 @@
 import Link from 'next/link';
 import styles from '../styles/styles.module.css';
 
+export function getServerSideProps({ req }) {
+  return {
+    redirect: {
+      permanent: false,
+      destination: '/home'
+    }
+  }
+}
+
 function Page() {
   return (
     <div className={styles.centerBox}>
