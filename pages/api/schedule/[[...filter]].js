@@ -1,6 +1,6 @@
 import { getClass } from "../../../lib/parser";
-import { getCurrentPeriod, getNearbyPeriod } from "../../../lib/time";
-import { getOrder } from "../../../lib/db";
+import { getCurrentPeriod, getNearbyPeriod, isInSchoolTimeCheck } from "../../../lib/time";
+import { format, getOrder } from "../../../lib/db";
 
 export default async function handler(req, res) {
     const { filter } = req.query;
@@ -15,15 +15,16 @@ export default async function handler(req, res) {
         } else if (filter.length === 3) { // Destinate
             time = {
                 day: parseInt(filter[2]),
-                order: parseInt(filter[1])
+                order: parseInt(filter[1]),
             }
+            time.isInSchoolTime = isInSchoolTimeCheck(time)
         } else { // Current
-            time = getCurrentPeriod(test = true);
+            time = getCurrentPeriod(true);
         }
 
-        schedule = await getOrder(time, target);
+        console.log({ target, });
+        schedule = format(await getOrder(time, target));
 
-        // console.log({ schedule });
 
         res.status(200).json({ target, time, schedule });
     } catch (e) {

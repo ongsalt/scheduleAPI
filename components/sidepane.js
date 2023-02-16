@@ -53,6 +53,19 @@ function Sidepane({ updateHandler, data, title, show, cancelHandler, model, newM
                                         />
                                     </div>
                                 )
+                            } else if (key === 'subject') {
+                                console.log(options)
+                                return (
+                                    <div className={style.inputBox} key={key}>
+                                        <label htmlFor={key}> Subject </label>
+                                        <Selector
+                                            data={options} 
+                                            setSelectedID={setSelectedID} 
+                                            key={data?.id} 
+                                            defaultValue={data?.subject}
+                                        />
+                                    </div>
+                                )
                             }
                             return (
                                 <div className={style.inputBox} key={key}>

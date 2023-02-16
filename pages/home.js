@@ -19,7 +19,7 @@ function Config({ user }) {
       <p>
         API Tester
       </p>
-      <Link href="/api/current/m5-5">
+      <Link href="/api/schedule/m5-5">
         <button>
           M.5/5 - Current
         </button>

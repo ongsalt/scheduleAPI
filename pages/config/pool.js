@@ -98,9 +98,6 @@ function Pool({ }) {
       }
     ]
   }, [selected])
-  const optionFetcher = useMemo(() => {
-    return () => pb.collection('shared').getFullList()
-  }, [pb])
 
 
   useEffect(() => {

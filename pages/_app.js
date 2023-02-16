@@ -3,8 +3,8 @@ import { useState, createContext } from 'react';
 import GlobalProvider from '../lib/clientContext';
 
 import '../styles/globals.css'
-import '../styles/palettes/shiroko.css'
-// import '../styles/palettes/serika.css'
+// import '../styles/palettes/shiroko.css'
+import '../styles/palettes/serika.css'
 
 // const THEME = 'serika'
 

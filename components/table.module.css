@@ -8,9 +8,16 @@
     height: auto;
     overflow-y: scroll;
 
-    background-color: #0000000a;
+    background-color: #00000008;
     border-top-left-radius: 12px;
     border-top-right-radius: 12px;
+}
+
+
+@media (prefers-color-scheme: dark) {
+    .table {
+        background-color: #0000002a;
+    }
 }
 
 .table table {
