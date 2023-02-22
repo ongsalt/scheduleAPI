@@ -25,6 +25,43 @@ const header = [
     },
 ]
 
+function AddClass({ show, pb, hide, updateClass }) {
+    if (!show) {
+        return <></>
+    }
+    const onAdd = async (grade, classNumber) => {
+        console.log('awaiting res')
+        await pb.collection("class").create({
+            class: classNumber,
+            grade: grade,
+            name: `${grade}/${classNumber}`
+        })
+        console.log('updating classlist')
+        await updateClass()
+        console.log('done')
+    }
+    return (
+        <>
+            <div className={style.popupBG} onClick={hide}>
+            </div>
+            <div className={style.popupContanier}>
+                <form className={style.popup} onSubmit={async event => {
+                    event.preventDefault()
+                    const g = event.target.elements.grade.value
+                    const c = event.target.elements.class.value
+                    await onAdd(g, c)
+                    hide()
+                }}>
+                    <h2> Add new class </h2>
+                    <input type="number" placeholder='Grade' name='grade' required />
+                    <input type="number" placeholder='Class' name='class' required />
+                    <button type='submit'> Submit </button>
+                </form>
+            </div>
+        </>
+    )
+}
+
 function Pool({ }) {
     const [filter, setFilter] = useState('');
 
@@ -32,6 +69,7 @@ function Pool({ }) {
     const [options, setOption] = useState([]);
     const [availableClass, setAvailableClass] = useState([]);
     const [selectedClass, setSelectedClass] = useState({ grade: 5, class: 5 });
+    const [showAddClass, setShowAddClass] = useState(false);
 
     const formattedOrder = useMemo(() => {
         console.log(order)
@@ -48,16 +86,16 @@ function Pool({ }) {
         }
     }, [])
 
-    // Init fetch
-    useMemo(async () => {
-
+    const updateClass = async () => {
         const temp = await pb.collection("class").getFullList()
         const e = temp.map(e => ({ class: e.class, grade: e.grade }))
         console.log({ temp, e })
         setAvailableClass(state => e)
         setSelectedClass(e[0])
         console.log({ availableClass, selectedClass })
+    }
 
+    const updateOrder = async () => {
         const fetchedOrders = await pb.collection("order").getFullList(undefined, {
             filter: `grade=${selectedClass.grade} && class=${selectedClass.class}`,
             expand: 'subject,subject.subjectData'
@@ -73,6 +111,9 @@ function Pool({ }) {
             }
         })
         setOrder(formatted)
+    }
+
+    const updateOption = async () => {
         const gettedOptions = await pb.collection("pool").getFullList(undefined, {
             expand: 'subjectData'
         })
@@ -84,7 +125,13 @@ function Pool({ }) {
             }
         })
         setOption(formattedOption)
+    }
 
+    // Init fetch
+    useMemo(async () => {
+        await updateClass()
+        await updateOrder()
+        await updateOption()
     }, [pb])
 
     const [selected, setSelected] = useState(null);
@@ -145,15 +192,18 @@ function Pool({ }) {
     return (
         <Layout title="Schedule">
             <ConfigLayout>
+                <AddClass show={showAddClass} hide={() => setShowAddClass(false)} pb={pb} updateClass={updateClass} />
                 <div className={style.body}>
                     <div className={style.flex}>
                         <div className={style.flex}>
                             <h1> Schedule </h1>
+                            {/* <h2 className={style.for}> for </h2> */}
                             {/* <p> Class </p> */}
-                            <select name="class" id="class" title='Class'>
-                                {availableClass.map(element => (
-                                    <option value={element} key={element}> {`${element.grade}/${element.class}`} </option>))}
-                            </select>
+                            {/* <select name="class" id="class" title='Class'> */}
+                                {/* {availableClass.map(element => ( */}
+                                    {/* <option value={element} key={element}> {`${element.grade}/${element.class}`} </option>))} */}
+                            {/* </select> */}
+                            {/* <button className={style.sub} onClick={() => setShowAddClass(true)}> + </button> */}
                         </div>
                         <div className={style.flex}>
                             <button onClick={() => {

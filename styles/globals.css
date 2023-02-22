@@ -109,3 +109,12 @@ h4 {
   color: var(--sub-color);
   font-weight: normal;
 }
+
+select {
+  background-color: var(--sub-alt-color);
+  border: none;
+  height: 2.5rem;
+  border-radius: 6px;
+  padding: 6px;
+  font-family: inherit;
+}
